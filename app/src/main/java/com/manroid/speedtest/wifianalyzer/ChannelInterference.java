@@ -39,7 +39,7 @@ import java.util.List;
 public class ChannelInterference extends Fragment
 {
     @SuppressWarnings("unused")
-    public static final String LOG_TAG = com.manroid.speedtest.wifianalyzer.ChannelInterference.class.getSimpleName();
+    public static final String LOG_TAG = ChannelInterference.class.getSimpleName();
 
     final static short FREQUENCY_CONNECTED_CHANNEL = 0;
     final static short NETWORKS_ON_CONNECTED_CHANNEL = 1;
@@ -80,7 +80,7 @@ public class ChannelInterference extends Fragment
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
-        mWifiManager =(WifiManager)getActivity().getSystemService(Context.WIFI_SERVICE);
+        mWifiManager =(WifiManager)getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         mWifiReceiver = new WifiScanReceiver();
 
         Utility.enableWifi(mWifiManager);

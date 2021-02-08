@@ -37,7 +37,7 @@ import java.util.List;
 
 public class ConnectionInfo extends Fragment {
     @SuppressWarnings("unused")
-    public static final String LOG_TAG = com.manroid.speedtest.wifianalyzer.ConnectionInfo.class.getSimpleName();
+    public static final String LOG_TAG = ConnectionInfo.class.getSimpleName();
 
     private static final String SERIES_KEY = "KEY";
 
