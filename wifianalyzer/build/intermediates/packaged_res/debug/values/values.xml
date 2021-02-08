@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="ap_view_array">
+        <item>@string/ap_view_complete</item>
+        <item>@string/ap_view_compact</item>
+    </string-array>
+    <string-array name="ap_view_index_array" translatable="false">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string-array name="connection_view_array">
+        <item>@string/connection_view_complete</item>
+        <item>@string/connection_view_compact</item>
+        <item>@string/connection_view_hide</item>
+    </string-array>
+    <string-array name="connection_view_index_array" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string-array name="graph_colors" translatable="false">
+        <!-- grey_500 -->
+        <item>#FF9E9E9E</item>
+        <item>#339E9E9E</item>
+        <!-- pink 500 -->
+        <item>#FFE91E63</item>
+        <item>#33E91E63</item>
+        <!-- orange 500 -->
+        <item>#FFFF9800</item>
+        <item>#33FF9800</item>
+        <!-- blue_grey 500 -->
+        <item>#FF607D8B</item>
+        <item>#33607D8B</item>
+        <!-- light_green 500 -->
+        <item>#FF8BC34A</item>
+        <item>#338BC34A</item>
+        <!-- light_blue 500 -->
+        <item>#FF03A9F4</item>
+        <item>#3303A9F4</item>
+        <!-- indigo 500 -->
+        <item>#FF3F51B5</item>
+        <item>#333F51B5</item>
+        <!-- deep_orange 500 -->
+        <item>#FFFF5722</item>
+        <item>#33FF5722</item>
+        <!-- amber 500 -->
+        <item>#FFFFC107</item>
+        <item>#33FFC107</item>
+        <!-- deep_purple 500 -->
+        <item>#FF673AB7</item>
+        <item>#33673AB7</item>
+        <!-- teal 500 -->
+        <item>#FF009688</item>
+        <item>#33009688</item>
+        <!-- cyan 500 -->
+        <item>#FF00BCD4</item>
+        <item>#3300BCD4</item>
+        <!-- lime 500 -->
+        <item>#FFCDDC39</item>
+        <item>#33CDDC39</item>
+        <!-- red_500 -->
+        <item>#FFF44336</item>
+        <item>#33F44336</item>
+        <!-- yellow 500 -->
+        <item>#FFFFEB3B</item>
+        <item>#33FFEB3B</item>
+        <!-- brown 500 -->
+        <item>#FF795548</item>
+        <item>#33795548</item>
+        <!-- purple 500 -->
+        <item>#FF9C27B0</item>
+        <item>#339C27B0</item>
+        <!-- green 500 -->
+        <item>#FF4CAF50</item>
+        <item>#334CAF50</item>
+        <!-- blue 500 -->
+        <item>#FF2196F3</item>
+        <item>#332196F3</item>
+    </string-array>
+    <string-array name="graph_legend_array">
+        <item>@string/graph_legend_left</item>
+        <item>@string/graph_legend_right</item>
+        <item>@string/graph_legend_hide</item>
+    </string-array>
+    <string-array name="graph_legend_index_array" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string-array name="graph_maximum_y_array" translatable="false">
+        <item>0dBm</item>
+        <item>-10dBm</item>
+        <item>-20dBm</item>
+        <item>-30dBm</item>
+        <item>-40dBm</item>
+        <item>-50dBm</item>
+    </string-array>
+    <string-array name="graph_maximum_y_index_array" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+    <string-array name="group_by_array">
+        <item>@string/group_by_none</item>
+        <item>@string/group_by_ssid</item>
+        <item>@string/group_by_channel</item>
+        <item>@string/group_by_virtual</item>
+    </string-array>
+    <string-array name="group_by_index_array" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <string-array name="scan_speed_array" translatable="false">
+        <item>1</item>
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>30</item>
+    </string-array>
+    <string-array name="sort_by_array">
+        <item>@string/sort_by_signal_strength</item>
+        <item>@string/sort_by_ssid</item>
+        <item>@string/sort_by_channel</item>
+    </string-array>
+    <string-array name="sort_by_index_array" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string-array name="theme_array">
+        <item>@string/theme_dark</item>
+        <item>@string/theme_light</item>
+        <item>@string/theme_system</item>
+    </string-array>
+    <string-array name="theme_index_array" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <bool name="keep_screen_on_default" translatable="false">false</bool>
+    <bool name="wifi_off_on_exit_default" translatable="false">false</bool>
+    <bool name="wifi_throttle_disabled_default" translatable="false">false</bool>
+    <color name="background">#616161</color>
+    <color name="channel">@color/regular</color>
+    <color name="channel_number">#00BCD4</color>
+    <color name="distance">#009688</color>
+    <color name="error">#F44336</color>
+    <color name="frequency">#0097A7</color>
+    <color name="regular">#9E9E9E</color>
+    <color name="security">#607D8B</color>
+    <color name="selected">#2196F3</color>
+    <color name="success">#4CAF50</color>
+    <color name="warning">#FFC107</color>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_half_margin">8dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="icon_large">36dp</dimen>
+    <dimen name="icon_small">12dp</dimen>
+    <dimen name="list_view_item_horizontal_spacer">4dp</dimen>
+    <dimen name="list_view_item_horizontal_tab">24dp</dimen>
+    <dimen name="nav_header_height">110dp</dimen>
+    <dimen name="no_margin">0dp</dimen>
+    <string name="about_contributor_title">"Contributors"</string>
+    <string name="about_description_text">"Optimize your Wi-Fi network, by checking Wi-Fi network status, signal strength and identifying crowded channels using an open-source WiFiAnalyzer for Android"</string>
+    <string name="about_description_title">"Description:"</string>
+    <string name="about_faq" translatable="false">"FAQ:"</string>
+    <string name="about_faq_url" translatable="false">"https://vremsoftwaredevelopment.github.io/WiFiAnalyzer/#faq"</string>
+    <string name="about_how_to" translatable="false">"How-to:"</string>
+    <string name="about_how_to_url" translatable="false">"https://vremsoftwaredevelopment.github.io/WiFiAnalyzer/#how-to"</string>
+    <string name="about_libraries_title">"Libraries Used:"</string>
+    <string name="about_library_graph_view" translatable="false">"Graph View"</string>
+    <string name="about_library_graph_view_url" translatable="false">"http://www.android-graphview.org"</string>
+    <string name="about_library_material" translatable="false">"Material Design Icons"</string>
+    <string name="about_library_material_url" translatable="false">"https://design.google.com/icons"</string>
+    <string name="about_license_title">"License:"</string>
+    <string name="about_usage_tips" translatable="false">"Usage Tips:"</string>
+    <string name="about_usage_tips_url" translatable="false">"https://vremsoftwaredevelopment.github.io/WiFiAnalyzer/#usage-tips"</string>
+    <string name="about_write_review">"Write a Review"</string>
+    <string name="action_about">"About"</string>
+    <string name="action_access_points">"Access Points"</string>
+    <string name="action_channel_available">"Available Channels"</string>
+    <string name="action_channel_graph">"Channel Graph"</string>
+    <string name="action_channel_rating">"Channel Rating"</string>
+    <string name="action_export">"Export"</string>
+    <string name="action_port_authority" translatable="false">"PortAuthority"</string>
+    <string name="action_settings">"Settings"</string>
+    <string name="action_time_graph">"Time Graph"</string>
+    <string name="action_vendors">"Vendors"</string>
+    <string name="al" translatable="false">"<u>Apache License 2.0</u>"</string>
+    <string name="al_url" translatable="false">"http://www.apache.org/licenses/LICENSE-2.0"</string>
+    <string name="ap_view_compact">"Compact"</string>
+    <string name="ap_view_complete">"Complete"</string>
+    <string name="ap_view_default" translatable="false">"0"</string>
+    <string name="ap_view_key" translatable="false">"view"</string>
+    <string name="ap_view_summary" translatable="false">"%s"</string>
+    <string name="ap_view_title">"Access Point Display"</string>
+    <string name="app_company_name" translatable="false">"VREM Software Development"</string>
+    <string name="app_copyright">"Copyright \u00A9 2015 \u002D"</string>
+    <string name="app_full_name" translatable="false">"WiFiAnalyzer (open-source)"</string>
+    <string name="app_name" translatable="false">"WiFiAnalyzer"</string>
+    <string name="app_url" translatable="false">"https://vremsoftwaredevelopment.github.io/WiFiAnalyzer"</string>
+    <string name="channel_graph_legend_default" translatable="false">"2"</string>
+    <string name="channel_graph_legend_key" translatable="false">"channel_graph_legend"</string>
+    <string name="channel_graph_legend_summary" translatable="false">"%s"</string>
+    <string name="channel_graph_legend_title">"Channel Graph Legend Display"</string>
+    <string name="channel_rating_best">"Best Channels:"</string>
+    <string name="channel_rating_best_alternative">", try alternative Wi-Fi Band"</string>
+    <string name="channel_rating_best_none">"None"</string>
+    <string name="channel_rating_heading_count">"Access Point Count"</string>
+    <string name="channel_rating_heading_number">"Channel Number"</string>
+    <string name="channel_rating_heading_rating">"Channel Rating"</string>
+    <string name="channel_short_name">"CH"</string>
+    <string name="connection_view_compact">"Compact"</string>
+    <string name="connection_view_complete">"Complete"</string>
+    <string name="connection_view_default" translatable="false">"1"</string>
+    <string name="connection_view_hide">"Hide"</string>
+    <string name="connection_view_key" translatable="false">"connection"</string>
+    <string name="connection_view_summary" translatable="false">"%s"</string>
+    <string name="connection_view_title">"Connection Display"</string>
+    <string name="country_code_key" translatable="false">"country_code"</string>
+    <string name="country_code_summary" translatable="false">"%s"</string>
+    <string name="country_code_title">"Country"</string>
+    <string name="experimental_key" translatable="false">"experimental_key"</string>
+    <string name="experimental_title" translatable="false">"Experimental"</string>
+    <string name="export_not_available">"Export not available"</string>
+    <string name="filter_apply">"Apply"</string>
+    <string name="filter_close">"Close"</string>
+    <string name="filter_reset">"Reset"</string>
+    <string name="filter_security_key" translatable="false">"filter_security"</string>
+    <string name="filter_security_title">"Security"</string>
+    <string name="filter_ssid_hint" translatable="false">"ssid SSID"</string>
+    <string name="filter_ssid_key" translatable="false">"filter_ssid"</string>
+    <string name="filter_ssid_title" translatable="false">"SSID"</string>
+    <string name="filter_strength_key" translatable="false">"filter_strength"</string>
+    <string name="filter_strength_title">"Signal Strength"</string>
+    <string name="filter_title">"Filter"</string>
+    <string name="filter_wifi_band_key" translatable="false">"filter_wifi_band"</string>
+    <string name="filter_wifi_band_title">"Wi-Fi Band"</string>
+    <string name="gpl" translatable="false">"<u>GNU General Public License v3.0</u>"</string>
+    <string name="gpl_url" translatable="false">"http://www.gnu.org/licenses/gpl-3.0.html"</string>
+    <string name="graph_axis_y">"Signal Strength (dBm)"</string>
+    <string name="graph_channel_axis_x">"Wi-Fi Channels"</string>
+    <string name="graph_legend_hide">"Hide"</string>
+    <string name="graph_legend_left">"Left"</string>
+    <string name="graph_legend_right">"Right"</string>
+    <string name="graph_maximum_y_default" translatable="false">"2"</string>
+    <string name="graph_maximum_y_key" translatable="false">"graph_maximum_y"</string>
+    <string name="graph_maximum_y_summary" translatable="false">"%s"</string>
+    <string name="graph_maximum_y_title">"Graph Maximum Signal Strength"</string>
+    <string name="graph_time_axis_x">"Scan Count"</string>
+    <string name="group_by_channel">"Channel"</string>
+    <string name="group_by_default" translatable="false">"0"</string>
+    <string name="group_by_key" translatable="false">"group_by"</string>
+    <string name="group_by_none">"None"</string>
+    <string name="group_by_ssid" translatable="false">"SSID"</string>
+    <string name="group_by_summary" translatable="false">"%s"</string>
+    <string name="group_by_title">"Group Access Points By"</string>
+    <string name="group_by_virtual">"Virtual"</string>
+    <string name="keep_screen_on_key" translatable="false">"keep_screen_on"</string>
+    <string name="keep_screen_on_title">"Keep screen on"</string>
+    <string name="language_key" translatable="false">"language"</string>
+    <string name="language_summary" translatable="false">"%s"</string>
+    <string name="language_title">"Language"</string>
+    <string name="location_msg">"This app can get your precise location from location services while the app is in use. Location services for your device must be turned on for the app to get location. This may increase battery usage."</string>
+    <string name="mc_flag" translatable="false">"802.11mc"</string>
+    <string name="navigation_drawer_close">"Close navigation drawer"</string>
+    <string name="navigation_drawer_open">"Open navigation drawer"</string>
+    <string name="no_data">"No Data"</string>
+    <string name="no_data_msg">"Please visit frequently ask questions section on our website."</string>
+    <string name="no_data_url" translatable="false">"https://vremsoftwaredevelopment.github.io/WiFiAnalyzer/#faq"</string>
+    <string name="permission_msg">"As of Android Marshmallow, location permissions are required to perform a Wi-Fi scan. You will be prompted to enable location services/permissions. Since this app does not require internet access, you can be confident that this app cannot transmit your location!"</string>
+    <string name="scan_speed_default" translatable="false">"5"</string>
+    <string name="scan_speed_key" translatable="false">"scan_speed"</string>
+    <string name="scan_speed_summary">"%s seconds between each scan"</string>
+    <string name="scan_speed_title">"Scan Interval"</string>
+    <string name="scanner_message">"Scanning …"</string>
+    <string name="scanner_pause">"Pause"</string>
+    <string name="scanner_play">"Play"</string>
+    <string name="security_none">"None"</string>
+    <string name="security_wep" translatable="false">"WEP"</string>
+    <string name="security_wpa" translatable="false">"WPA"</string>
+    <string name="security_wpa2" translatable="false">"WPA2"</string>
+    <string name="security_wpa3" translatable="false">"WPA3"</string>
+    <string name="security_wps" translatable="false">"WPS"</string>
+    <string name="selected_menu_key" translatable="false">"selected_menu"</string>
+    <string name="sort_by_channel">"Channel"</string>
+    <string name="sort_by_default" translatable="false">"0"</string>
+    <string name="sort_by_key" translatable="false">"sort_by"</string>
+    <string name="sort_by_signal_strength">"Signal Strength"</string>
+    <string name="sort_by_ssid" translatable="false">"SSID"</string>
+    <string name="sort_by_summary" translatable="false">"%s"</string>
+    <string name="sort_by_title">"Sort Access Points By"</string>
+    <string name="theme_dark">"Dark"</string>
+    <string name="theme_default" translatable="false">"0"</string>
+    <string name="theme_key" translatable="false">"theme"</string>
+    <string name="theme_light">"Light"</string>
+    <string name="theme_summary" translatable="false">"%s"</string>
+    <string name="theme_system">"System"</string>
+    <string name="theme_title">"Theme"</string>
+    <string name="throttling_msg">"Android 9 introduced Wi-Fi scan throttling. Android 10 has a new developer option to toggle the throttling off under (Settings > Developer Options > Networking > Wi-Fi scan throttling)."</string>
+    <string name="time_graph_legend_default" translatable="false">"0"</string>
+    <string name="time_graph_legend_key" translatable="false">"time_graph_legend"</string>
+    <string name="time_graph_legend_summary" translatable="false">"%s"</string>
+    <string name="time_graph_legend_title">"Time Graph Legend Display"</string>
+    <string name="vendor_search_hint" translatable="false">"00:0C:41 CISCO"</string>
+    <string name="wifi_band_2ghz" translatable="false">"2.4 GHz"</string>
+    <string name="wifi_band_5ghz" translatable="false">"5 GHz"</string>
+    <string name="wifi_band_6ghz" translatable="false">"6 GHz"</string>
+    <string name="wifi_band_key" translatable="false">"wifi_band"</string>
+    <string name="wifi_band_title" translatable="false">"2.4/5 GHz"</string>
+    <string name="wifi_channels_list_url" translatable="false">"https://en.wikipedia.org/wiki/List_of_WLAN_channels"</string>
+    <string name="wifi_off_on_exit_key" translatable="false">"wifi_off_on_exit"</string>
+    <string name="wifi_off_on_exit_title">"Wi-Fi off on Exit"</string>
+    <string name="wifi_standard_ac" translatable="false">"Wi-Fi 802.11ac"</string>
+    <string name="wifi_standard_ax" translatable="false">"Wi-Fi 802.11ax"</string>
+    <string name="wifi_standard_legacy" translatable="false">"Wi-Fi 802.11a/b/g"</string>
+    <string name="wifi_standard_n" translatable="false">"Wi-Fi 802.11n"</string>
+    <string name="wifi_standard_unknown" translatable="false">""</string>
+    <string name="wifi_throttle_disabled_key" translatable="false">"wifi_throttle_disabled_key"</string>
+    <string name="wifi_throttle_disabled_title" translatable="false">"Disable Wi-Fi scan throttling"</string>
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+    </style>
+    <style name="ThemeDark" parent="Theme.AppCompat">
+        <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+    </style>
+    <style name="ThemeDarkNoActionBar" parent="ThemeDark">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="ThemeLight" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+    </style>
+    <style name="ThemeLightNoActionBar" parent="ThemeLight">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="ThemeOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+    </style>
+    <style name="ThemeSystem" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+    </style>
+    <style name="ThemeSystemNoActionBar" parent="ThemeSystem">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="WindowAnimationTransition">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
+</resources>

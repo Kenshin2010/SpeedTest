@@ -15,7 +15,6 @@
     <string name="action_time_graph">Time Graph</string>
     <string name="action_channel_available">Available Channels</string>
     <string name="action_vendors">Vendors</string>
-    <string name="action_settings">Settings</string>
     <string name="action_about">About</string>
 
     <string name="button_ok" translatable="false">OK</string>
@@ -91,4 +90,123 @@
     <string name="about_contributor_title">Contributors:</string>
     <string name="about_contributor_list" translatable="false">Alex Orchard, Dan Light, Graham Foster, Lee McCallum, Michael Melo, Silviu Marcu, Vadim Karantayer</string>
     <!-- about end -->
+
+    <string name="title_section1">1</string>
+    <string name="title_section2">2</string>
+    <string name="title_section3">3</string>
+    <string name="title_section4">4</string>
+    <string name="title_section5">5</string>
+
+    <string name="title_section_name1">Connection Info</string>
+    <string name="title_section_name2">Networks Status</string>
+    <string name="title_section_name3">Home Testing</string>
+    <string name="title_section_name4">Channel Interference</string>
+    <string name="title_section_name5">Strength Graph</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="pref_refresh_rate_label">Refresh Rate</string>
+    <string name="pref_refresh_rate_key" translatable="false">refreshRate</string>
+    <string name="pref_refresh_rate_label_0" translatable="false">AS FAST AS POSSIBLE</string>
+    <string name="pref_refresh_rate_label_2" translatable="false">2</string>
+    <string name="pref_refresh_rate_label_3" translatable="false">3</string>
+    <string name="pref_refresh_rate_label_5" translatable="false">5</string>
+    <string name="pref_refresh_rate_label_10" translatable="false">10</string>
+    <string name="pref_refresh_rate_0" translatable="false">0</string>
+    <string name="pref_refresh_rate_2" translatable="false">2</string>
+    <string name="pref_refresh_rate_3" translatable="false">3</string>
+    <string name="pref_refresh_rate_5" translatable="false">5</string>
+    <string name="pref_refresh_rate_10" translatable="false">10</string>
+
+    <string name="title_activity_settings">Settings</string>
+
+    <string name="two_strings_textView">%1$s [%2$s] </string>
+
+    <string name="percent_textView">%1$s %%</string>
+    <string name="Mbps_textView">%1$s Mbps</string>
+    <string name="dBm_textView">%1$s dBm</string>
+    <string name="connected_bar">Connected: %1$s</string>
+    <string name="valuation">%1$d / 10 </string>
+
+    <string name="ns_title_dialog_refresh_rate">Select automatic scanning time (s)</string>
+
+    <string name="ns_channel_static_textView">C:</string>
+    <string name="ns_strength_percent_static_textView">S:</string>
+    <string name="ns_frequency_static_textView">F:</string>
+
+    <string name="ns_capabilities_textView">Encryption: %1$s</string>
+
+    <string name="ns_interval">Interval: %1$s s</string>
+    <string name="ns_ip">IP: %1$s </string>
+    <string name="ns_speed">Speed: %1$s Mbps</string>
+    <string name="ns_number_of_available_network">Wireless networks: %1$s</string>
+
+    <string name="ht_test_button">TEST</string>
+
+    <string name="ht_strength_static_textView">STRENGTH</string>
+    <string name="ht_speed_static_textView">SPEED</string>
+
+    <string name="ht_now_static">Now: </string>
+    <string name="ht_last_static">Last: </string>
+
+    <string name="ht_add_room_dialog_title">Add room</string>
+    <string name="ht_add_room_dialog_message">Room name: </string>
+    <string name="ht_edit_room_dialog_title">Edit room</string>
+    <string name="ht_edit_room_dialog_message">New room name: </string>
+    <string name="ok_text">OK</string>
+    <string name="cancel_text">Cancel</string>
+
+    <string name="ci_filter_bar">Filter: 2,4 GHz</string>
+    <string name="ci_channel_bar">Channel: %1$s</string>
+    <string name="ci_number_of_networks_on_this_channel_bar">Networks on this channel: %1$d</string>
+    <string name="ci_valuation_static_bar">Valuation: </string>
+    <string name="ci_recommended_bar">Recommended: %1$d, %2$d, %3$d </string>
+
+    <string name="cia_channel">Ch: %1$d </string>
+    <string name="cia_valuation_progressbar">%1$d %% </string>
+
+    <string name="ci_channel_static_textview">Channel</string>
+    <string name="ci_valuation_static_textview">Used bandwidth</string>
+    <string name="ci_networks_static_textview">Net-s</string>
+    <string name="ci_scroll_info_static_textview">Scroll up/down to see graph/valuation</string>
+    <string name="ci_channel_recommended_static_textview">Recommended</string>
+
+    <string name="ci_labelx">Channel</string>
+    <string name="ci_labely">Strength (dBm)</string>
+    <string name="sg_labelx">Time (s)</string>
+    <string name="sg_labely">Strength (dBm)</string>
+
+    <string name="cinf_strength_bar_view">dBm: %1$s</string>
+
+    <string name="cinf_ssid_view">SSID:</string>
+    <string name="cinf_bssid_view">BSSID:</string>
+    <string name="cinf_mac_view">MAC:</string>
+    <string name="cinf_manufacturer_view">Manufacturer:</string>
+    <string name="cinf_speed_view">Speed:</string>
+    <string name="cinf_strength_view">Strength:</string>
+    <string name="cinf_encryption_view">Encryption:</string>
+    <string name="cinf_channel_view">Channel:</string>
+    <string name="cinf_frequency_view">Frequency:</string>
+    <string name="cinf_ip_view">IP:</string>
+    <string name="cinf_netmask_view">Netmask:</string>
+    <string name="cinf_gateway_view">Gateway:</string>
+    <string name="cinf_dhcp_view">DHCP-Server:</string>
+    <string name="cinf_dns1_view">DNS1:</string>
+    <string name="cinf_dns2_view">DNS2:</string>
+    <string name="cinf_dhspl_view">DHCP lease:</string>
+    <string name="cinf_exterip_view">External IP:</string>
+
+    <string name="toast_wifi_disconnected">WiFi is disconnected</string>
+    <string name="default_connected">Connected: N/N</string>
+    <string name="default_dBm">dBm: N/N</string>
+    <string name="default_nn">N/N</string>
+    <string name="default_interval">Interval: N/N</string>
+    <string name="default_ip">IP: N/N</string>
+    <string name="default_speed">Speed: N/N</string>
+    <string name="default_wn">Wireless networks: N/N</string>
+    <string name="default_channel">Channel: N/N</string>
+    <string name="default_networks_on_this_channel">Networks on this channel: N/N</string>
+    <string name="default_recommended">Recommended: N/N</string>
+    <string name="title_activity_utility_test">Utility_test</string>
+
 </resources>
