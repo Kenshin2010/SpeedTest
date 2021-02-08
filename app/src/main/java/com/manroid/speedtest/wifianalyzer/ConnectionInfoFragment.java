@@ -35,9 +35,9 @@ import org.achartengine.renderer.XYSeriesRenderer;
 import java.util.HashMap;
 import java.util.List;
 
-public class ConnectionInfo extends Fragment {
+public class ConnectionInfoFragment extends Fragment {
     @SuppressWarnings("unused")
-    public static final String LOG_TAG = ConnectionInfo.class.getSimpleName();
+    public static final String LOG_TAG = ConnectionInfoFragment.class.getSimpleName();
 
     private static final String SERIES_KEY = "KEY";
 

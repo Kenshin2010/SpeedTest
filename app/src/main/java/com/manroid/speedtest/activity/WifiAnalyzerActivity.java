@@ -15,8 +15,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.manroid.speedtest.R;
-import com.manroid.speedtest.wifianalyzer.ConnectionInfo;
-import com.manroid.speedtest.wifianalyzer.NetworkStatus;
+import com.manroid.speedtest.wifianalyzer.ConnectionInfoFragment;
+import com.manroid.speedtest.wifianalyzer.NetworkStatusFragment;
 
 import java.util.Locale;
 
@@ -128,10 +128,10 @@ public class WifiAnalyzerActivity extends AppCompatActivity implements ActionBar
             switch (position) {
                 case 0:
                     // Top Rated fragment activity
-                    return new ConnectionInfo();
+                    return new ConnectionInfoFragment();
                 case 1:
                     // Games fragment activity
-                    return new NetworkStatus();
+                    return new NetworkStatusFragment();
             }
 
             return null;
