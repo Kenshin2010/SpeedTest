@@ -29,8 +29,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class NetworkStatus extends Fragment
-{
+public class NetworkStatus extends Fragment {
     @SuppressWarnings("unused")
     public static final String LOG_TAG = NetworkStatus.class.getSimpleName();
 
@@ -43,9 +42,8 @@ public class NetworkStatus extends Fragment
     private ViewHolder viewHolder;
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
-        mWifiManager =(WifiManager)getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+    public void onCreate(Bundle savedInstanceState) {
+        mWifiManager = (WifiManager) getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         mWifiReceiver = new WifiScanReceiver();
 
         Utility.enableWifi(mWifiManager);
@@ -56,23 +54,20 @@ public class NetworkStatus extends Fragment
     }
 
     @Override
-    public void onPause()
-    {
+    public void onPause() {
         setParametersReceiverBefore();
         super.onPause();
     }
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         setParametersReceiverAfter();
         super.onResume();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+                             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.network_status_tab, container, false);
 
         viewHolder = new ViewHolder(rootView);
@@ -81,12 +76,10 @@ public class NetworkStatus extends Fragment
     }
 
     //unregister receiver & close timer
-    private void setParametersReceiverBefore()
-    {
+    private void setParametersReceiverBefore() {
         getActivity().unregisterReceiver(mWifiReceiver);
 
-        if (timer != null)
-        {
+        if (timer != null) {
             timer.cancel();
             timer.purge();
             timer = null;
@@ -94,22 +87,18 @@ public class NetworkStatus extends Fragment
     }
 
     //register receiver & schedule timer
-    private void setParametersReceiverAfter()
-    {
+    private void setParametersReceiverAfter() {
         getActivity().registerReceiver(mWifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 
         //schedule timer
-        if(mRrefreshRate > 0)
-        {
+        if (mRrefreshRate > 0) {
             timer = new Timer();
             TimerTask updateTask = new TimerTask() {
                 @Override
                 public void run() {
-                    getActivity().runOnUiThread(new Runnable()
-                    {
+                    getActivity().runOnUiThread(new Runnable() {
                         @Override
-                        public void run()
-                        {
+                        public void run() {
                             updateView();
                         }
                     });
@@ -120,35 +109,32 @@ public class NetworkStatus extends Fragment
     }
 
     //update View - Networks & Bar
-    private void updateView()
-    {
+    private void updateView() {
         Utility.enableWifi(mWifiManager);
         mWifiManager.startScan();
 
         List<ScanResult> wifiScanList = mWifiManager.getScanResults();
 
-        if(wifiScanList == null)
-        {
+        if (wifiScanList == null) {
             return;
         }
 
         updateNetworkStatus(wifiScanList);
         updateInfoBar(wifiScanList.size());
     }
+
     //TODO create progress dialog during update
     //update network status for each signal
-    private void updateNetworkStatus(List<ScanResult> wifiScanList)
-    {
+    private void updateNetworkStatus(List<ScanResult> wifiScanList) {
         List<String[]> list = new ArrayList<>();
 
         WifiInfo wifiInfo = mWifiManager.getConnectionInfo();
 
         String bssid = wifiInfo.getBSSID();
-        if( bssid == null)
+        if (bssid == null)
             bssid = "";
 
-        for (int i = 0; i < wifiScanList.size(); i++)
-        {
+        for (int i = 0; i < wifiScanList.size(); i++) {
             String[] wifiDetails = new String[NetworkStatusAdapter.SIZE_TAB];
 
             wifiDetails[NetworkStatusAdapter.BSSID_TAB] = wifiScanList.get(i).BSSID;
@@ -157,12 +143,9 @@ public class NetworkStatus extends Fragment
             wifiDetails[NetworkStatusAdapter.FREQUENCY_TAB] = String.valueOf(wifiScanList.get(i).frequency);
             wifiDetails[NetworkStatusAdapter.LEVEL_TAB] = String.valueOf(wifiScanList.get(i).level);
 
-            if(bssid.equals(wifiScanList.get(i).BSSID))
-            {
+            if (bssid.equals(wifiScanList.get(i).BSSID)) {
                 wifiDetails[NetworkStatusAdapter.IS_CONNECTED] = "1";
-            }
-            else
-            {
+            } else {
                 wifiDetails[NetworkStatusAdapter.IS_CONNECTED] = "0";
             }
 
@@ -175,15 +158,14 @@ public class NetworkStatus extends Fragment
 
     //update view in simple info bar
     @SuppressLint("StringFormatMatches") @SuppressWarnings("deprecation")
-    private void updateInfoBar(int size)
-    {
+    private void updateInfoBar(int size) {
         Resources resources = getResources();
         WifiInfo wifiInfo = mWifiManager.getConnectionInfo();
 
         viewHolder.intervalView.setText(String.format(resources.getString(R.string.ns_interval), mRefreshRateInSec));
         viewHolder.wirelessNetworksView.setText(String.format(resources.getString(R.string.ns_number_of_available_network), size));
 
-        if(wifiInfo.getBSSID() == null)
+        if (wifiInfo.getBSSID() == null)
             return;
 
         viewHolder.connectedInfoView.setText(String.format(resources.getString(R.string.connected_bar), wifiInfo.getSSID()));
@@ -192,8 +174,7 @@ public class NetworkStatus extends Fragment
     }
 
     //create dialog to choice refresh interval
-    private void createRefreshIntervalDialog()
-    {
+    private void createRefreshIntervalDialog() {
         final String[] stringsRefreshRateValues = getResources().getStringArray(R.array.pref_refresh_rate_values);
         final String[] stringsRefreshRateOptions = getResources().getStringArray(R.array.pref_refresh_rate_options);
 
@@ -201,11 +182,9 @@ public class NetworkStatus extends Fragment
         alertDialog.setTitle(R.string.ns_title_dialog_refresh_rate);
 
         alertDialog.setSingleChoiceItems(stringsRefreshRateOptions, 1,
-                new DialogInterface.OnClickListener()
-                {
+                new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which)
-                    {
+                    public void onClick(DialogInterface dialog, int which) {
                         mRefreshRateInSec = Integer.parseInt(stringsRefreshRateValues[which]);
                         mRrefreshRate = 1000 * mRefreshRateInSec;
 
@@ -221,19 +200,15 @@ public class NetworkStatus extends Fragment
     }
 
     //update if AS FAST AS POSSIBLE
-    private class WifiScanReceiver extends BroadcastReceiver
-    {
-        public void onReceive(Context c, Intent intent)
-        {
-            if( mRrefreshRate == 0)
-            {
+    private class WifiScanReceiver extends BroadcastReceiver {
+        public void onReceive(Context c, Intent intent) {
+            if (mRrefreshRate == 0) {
                 updateView();
             }
         }
     }
 
-    public class ViewHolder
-    {
+    public class ViewHolder {
         public final ImageButton refreshButton;
         public final ImageButton refreshRateButton;
 
@@ -245,8 +220,7 @@ public class NetworkStatus extends Fragment
 
         public final ListView mListView;
 
-        public ViewHolder(View rootView)
-        {
+        public ViewHolder(View rootView) {
             refreshButton = (ImageButton) rootView.findViewById(R.id.refresh_button);
             refreshRateButton = (ImageButton) rootView.findViewById(R.id.scanning_time_button);
 
@@ -258,20 +232,16 @@ public class NetworkStatus extends Fragment
 
             mListView = (ListView) rootView.findViewById(R.id.network_status_listview);
 
-            refreshButton.setOnClickListener(new View.OnClickListener()
-            {
+            refreshButton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v)
-                {
+                public void onClick(View v) {
                     updateView();
                 }
             });
 
-            refreshRateButton.setOnClickListener(new View.OnClickListener()
-            {
+            refreshRateButton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v)
-                {
+                public void onClick(View v) {
                     createRefreshIntervalDialog();
                 }
             });

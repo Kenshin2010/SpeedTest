@@ -34,8 +34,7 @@ public class WifiAnalyzerActivity extends AppCompatActivity implements ActionBar
         // Set up the action bar.
         final ActionBar actionBar = getSupportActionBar();
 
-        if (actionBar != null)
-        {
+        if (actionBar != null) {
             actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         }
 
@@ -83,19 +82,19 @@ public class WifiAnalyzerActivity extends AppCompatActivity implements ActionBar
         // When the given tab is selected, switch to the corresponding page in
         // the ViewPager.
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null)
-        {
-            actionBar.setDisplayOptions( ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
+        if (actionBar != null) {
+            actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
         }
 
         assert actionBar != null;
 
-        switch (tab.getPosition())
-        {
+        switch (tab.getPosition()) {
             case 0:
-                actionBar.setSubtitle(getString(R.string.title_section_name1)); break;
+                actionBar.setSubtitle(getString(R.string.title_section_name1));
+                break;
             case 1:
-                actionBar.setSubtitle(getString(R.string.title_section_name2)); break;
+                actionBar.setSubtitle(getString(R.string.title_section_name2));
+                break;
 
         }
 
@@ -110,10 +109,12 @@ public class WifiAnalyzerActivity extends AppCompatActivity implements ActionBar
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
 
-    /**  -----------------------------------------------------------------------------------
+    /**
+     * -----------------------------------------------------------------------------------
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
-     --------------------------------------------------------------------------------------*/
+     * --------------------------------------------------------------------------------------
+     */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
@@ -155,9 +156,11 @@ public class WifiAnalyzerActivity extends AppCompatActivity implements ActionBar
         }
     }
 
-    /**  -------------------------------------------------------------------------------------------
+    /**
+     * -------------------------------------------------------------------------------------------
      * A placeholder fragment containing a simple view.
-     ----------------------------------------------------------------------------------------------*/
+     * ----------------------------------------------------------------------------------------------
+     */
     @SuppressWarnings("unused")
     public static class PlaceholderFragment extends Fragment {
         /**

@@ -36,8 +36,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ChannelInterference extends Fragment
-{
+public class ChannelInterference extends Fragment {
     @SuppressWarnings("unused")
     public static final String LOG_TAG = ChannelInterference.class.getSimpleName();
 
@@ -78,9 +77,8 @@ public class ChannelInterference extends Fragment
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
-        mWifiManager =(WifiManager)getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+    public void onCreate(Bundle savedInstanceState) {
+        mWifiManager = (WifiManager) getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         mWifiReceiver = new WifiScanReceiver();
 
         Utility.enableWifi(mWifiManager);
@@ -91,41 +89,37 @@ public class ChannelInterference extends Fragment
     }
 
     @Override
-    public void onPause()
-    {
+    public void onPause() {
         getActivity().unregisterReceiver(mWifiReceiver);
         super.onPause();
     }
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         getActivity().registerReceiver(mWifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
         super.onResume();
     }
 
     //update all items in gui
-    private void update()
-    {
+    private void update() {
         Utility.enableWifi(mWifiManager);
         mWifiManager.startScan();
 
         List<ScanResult> wifiScanList = mWifiManager.getScanResults();
 
-        if(wifiScanList == null)
-        {
+        if (wifiScanList == null) {
             return;
         }
 
         WifiInfo wifiInfo = mWifiManager.getConnectionInfo();
 
-        HashMap<Short, String> connectionInfo =  getInfoAboutCurrentConnection(wifiInfo, wifiScanList);
+        HashMap<Short, String> connectionInfo = getInfoAboutCurrentConnection(wifiInfo, wifiScanList);
 
         updateChart(wifiScanList, connectionInfo);
 
         updateValuationList(wifiScanList, connectionInfo);
 
-        if(wifiInfo.getBSSID() == null)
+        if (wifiInfo.getBSSID() == null)
             return;
 
         updateInfoBar(Integer.valueOf(connectionInfo.get(NETWORKS_ON_CONNECTED_CHANNEL)),
@@ -134,11 +128,10 @@ public class ChannelInterference extends Fragment
     }
 
     //draw graph with networks
-    private void updateChart(List<ScanResult> wifiScanList, HashMap<Short, String> connectionInfo)
-    {
+    private void updateChart(List<ScanResult> wifiScanList, HashMap<Short, String> connectionInfo) {
         WifiChart wifiChart = new WifiChart(wifiScanList, sNumberOfChannels);
         wifiChart.init();
-        if(connectionInfo.get(SSID_CONNECTED_NETWORK) != null)
+        if (connectionInfo.get(SSID_CONNECTED_NETWORK) != null)
             wifiChart.setValues(connectionInfo.get(SSID_CONNECTED_NETWORK));
         else
             wifiChart.setValues("tmp");
@@ -147,8 +140,7 @@ public class ChannelInterference extends Fragment
     }
 
     //update info in bar that don't need valuation
-    private void updateInfoBar(int size, int freq , String ssid)
-    {
+    private void updateInfoBar(int size, int freq, String ssid) {
         Resources resources = getResources();
 
         viewHolder.connectedView.setText(String.format(resources.getString(R.string.connected_bar), ssid));
@@ -157,16 +149,14 @@ public class ChannelInterference extends Fragment
     }
 
     //draw and find best channels
-    private void updateValuationList(List<ScanResult> wifiScanList, HashMap<Short, String> connectionInfo)
-    {
+    private void updateValuationList(List<ScanResult> wifiScanList, HashMap<Short, String> connectionInfo) {
         List<String[]> list = new ArrayList<>();
 
         int[] networksOnChannel = getNumberOfNetworksOnChannels(wifiScanList);
         int[] valuation_percent = valuateChannels(wifiScanList);
         int[] valuation_percent_recommended = valuateChannelsWithoutConnected(wifiScanList);
 
-        for (int i = 0; i < sNumberOfChannels; i++)
-        {
+        for (int i = 0; i < sNumberOfChannels; i++) {
             String[] wifiDetails = new String[ValuationChannelAdapter.SIZE_TAB];
 
             wifiDetails[ValuationChannelAdapter.CHANNEL_TAB] = String.valueOf(i + 1);
@@ -200,20 +190,17 @@ public class ChannelInterference extends Fragment
     }
 
     //vevaluation of all bandwidths on the basis of available networks
-    private int[] valuateChannels(List<ScanResult> wifiScanList)
-    {
+    private int[] valuateChannels(List<ScanResult> wifiScanList) {
         int[] result = new int[sAllChannels];
 
-        for (int i = 0; i < sAllChannels; i++)
-        {
+        for (int i = 0; i < sAllChannels; i++) {
             result[i] = 500;
         }
 
-        for (int i = 0; i < wifiScanList.size(); i++)
-        {
+        for (int i = 0; i < wifiScanList.size(); i++) {
             int channel = Utility.convertFrequencyToChannel(wifiScanList.get(i).frequency);
 
-            if( channel  < sFirstChannel || channel > sLastChannel)
+            if (channel < sFirstChannel || channel > sLastChannel)
                 continue;
 
             int dBm = wifiScanList.get(i).level;
@@ -225,11 +212,10 @@ public class ChannelInterference extends Fragment
             result[channel + 3] -= (s3rdFactor + sDBmFactor * Utility.convertRssiToQualityWithSub(dBm, sDBm3rdFactor));
         }
 
-        for (int i = 0; i < sAllChannels; i++)
-        {
+        for (int i = 0; i < sAllChannels; i++) {
             result[i] /= 5;
 
-            if(result[i] < 0)
+            if (result[i] < 0)
                 result[i] = 0;
         }
 
@@ -237,28 +223,24 @@ public class ChannelInterference extends Fragment
     }
 
     //evaluation in way that connected network is not taken into account
-    private int[] valuateChannelsWithoutConnected(List<ScanResult> wifiScanList)
-    {
+    private int[] valuateChannelsWithoutConnected(List<ScanResult> wifiScanList) {
         int[] result = new int[sAllChannels];
 
-        for (int i = 0; i < sAllChannels; i++)
-        {
+        for (int i = 0; i < sAllChannels; i++) {
             result[i] = 500;
         }
 
         WifiInfo wifiInfo = mWifiManager.getConnectionInfo();
         String bssid = wifiInfo.getBSSID();
-        if(bssid == null)
+        if (bssid == null)
             bssid = "tmp";
 
-        for (int i = 0; i < wifiScanList.size(); i++)
-        {
-            if(!wifiScanList.get(i).BSSID.equals(bssid))
-            {
+        for (int i = 0; i < wifiScanList.size(); i++) {
+            if (!wifiScanList.get(i).BSSID.equals(bssid)) {
                 int channel = Utility.convertFrequencyToChannel(wifiScanList.get(i).frequency);
                 int dBm = wifiScanList.get(i).level;
 
-                if( channel  < sFirstChannel || channel > sLastChannel)
+                if (channel < sFirstChannel || channel > sLastChannel)
                     continue;
 
                 result[channel + 1] -= (s1stFactor + sDBmFactor * Utility.convertRssiToQualityWithSub(dBm, 0));
@@ -269,18 +251,16 @@ public class ChannelInterference extends Fragment
             }
         }
 
-        for (int i = 0; i < sAllChannels; i++)
-        {
+        for (int i = 0; i < sAllChannels; i++) {
             result[i] /= 5;
 
-            if(result[i] < 0)
+            if (result[i] < 0)
                 result[i] = 0;
         }
 
         int averages[] = new int[sNumberOfChannels];
 
-        for (int i = 2; i < sAllChannels - 2; i++)
-        {
+        for (int i = 2; i < sAllChannels - 2; i++) {
             int sum = result[i - 2] + result[i - 2] + result[i] + result[i + 1] + result[i + 2];
             averages[i - 2] = sum / 5;
         }
@@ -289,61 +269,51 @@ public class ChannelInterference extends Fragment
     }
 
     //get numbers of networks on each channel
-    private int[] getNumberOfNetworksOnChannels(List<ScanResult> wifiScanList)
-    {
+    private int[] getNumberOfNetworksOnChannels(List<ScanResult> wifiScanList) {
         int[] result = new int[sNumberOfChannels];
 
-        for (int i = 0; i < sNumberOfChannels; i++)
-        {
+        for (int i = 0; i < sNumberOfChannels; i++) {
             result[i] = 0;
         }
 
-        for (int i = 0; i < wifiScanList.size(); i++)
-        {
+        for (int i = 0; i < wifiScanList.size(); i++) {
             int res = Utility.convertFrequencyToChannel(wifiScanList.get(i).frequency) - 1;
 
 
-            if( res  < sFirstChannel - 1 || res > sLastChannel - 1)
+            if (res < sFirstChannel - 1 || res > sLastChannel - 1)
                 continue;
 
-            result[ res ] += 1;
+            result[res] += 1;
         }
 
         return result;
     }
 
     //get three best channels on the basis of valuateChannelsWithoutConnected
-    private int [] getRecommendedChannels(int [] ints)
-    {
+    private int[] getRecommendedChannels(int[] ints) {
         int best1 = 0, best2 = 0, best3 = 0;
         int ch1 = 0, ch2 = 0, ch3 = 0;
 
-        for (int i = 0; i < ints.length; i++)
-        {
-            if(best1 < ints[i])
-            {
+        for (int i = 0; i < ints.length; i++) {
+            if (best1 < ints[i]) {
                 best3 = best2;
                 best2 = best1;
                 best1 = ints[i];
                 ch3 = ch2;
                 ch2 = ch1;
                 ch1 = i;
-            }
-            else if (best2 < ints[i])
-            {
+            } else if (best2 < ints[i]) {
                 best3 = best2;
                 best2 = ints[i];
                 ch3 = ch2;
                 ch2 = i;
-            }
-            else if (best3 < ints[i])
-            {
+            } else if (best3 < ints[i]) {
                 best3 = ints[i];
                 ch3 = i;
             }
         }
 
-        int [] rec = new int[3];
+        int[] rec = new int[3];
 
         rec[0] = ch1 + 1;
         rec[1] = ch2 + 1;
@@ -353,35 +323,31 @@ public class ChannelInterference extends Fragment
     }
 
     //get parameters about conneced network
-    private HashMap<Short, String> getInfoAboutCurrentConnection(WifiInfo wifiInfo, List<ScanResult> wifiScanList)
-    {
+    private HashMap<Short, String> getInfoAboutCurrentConnection(WifiInfo wifiInfo, List<ScanResult> wifiScanList) {
         HashMap<Short, String> hashMap = new HashMap<>();
 
         int onConnectedChannel = 0;
         int frequency = 0;
 
         String bssid = wifiInfo.getBSSID();
-        if(bssid == null)
+        if (bssid == null)
             bssid = sNN;
 
-        for(int i = 0; i < wifiScanList.size(); i++)
-        {
+        for (int i = 0; i < wifiScanList.size(); i++) {
             if (bssid.equals(wifiScanList.get(i).BSSID)) {
                 frequency = wifiScanList.get(i).frequency;
             }
         }
 
-        for(int i = 0; i < wifiScanList.size(); i++)
-        {
-            if (frequency == wifiScanList.get(i).frequency)
-            {
+        for (int i = 0; i < wifiScanList.size(); i++) {
+            if (frequency == wifiScanList.get(i).frequency) {
                 ++onConnectedChannel;
             }
         }
 
         hashMap.put(FREQUENCY_CONNECTED_CHANNEL, String.valueOf(frequency));
         hashMap.put(NETWORKS_ON_CONNECTED_CHANNEL, String.valueOf(onConnectedChannel));
-        if(bssid.equals(sNN))
+        if (bssid.equals(sNN))
             hashMap.put(SSID_CONNECTED_NETWORK, bssid);
         else
             hashMap.put(SSID_CONNECTED_NETWORK, wifiInfo.getSSID());
@@ -389,8 +355,7 @@ public class ChannelInterference extends Fragment
         return hashMap;
     }
 
-    private class WifiChart
-    {
+    private class WifiChart {
         private final String LABEL_X = getString(R.string.ci_labelx);
         private final String LABEL_Y = getString(R.string.ci_labely);
         private final List<ScanResult> mWifiScanList;
@@ -399,18 +364,16 @@ public class ChannelInterference extends Fragment
         private XYMultipleSeriesRenderer mRenderer;
         private GraphicalView mChartView;
 
-        public WifiChart(List<ScanResult> wifiScanList, short numberOfChannels)
-        {
+        public WifiChart(List<ScanResult> wifiScanList, short numberOfChannels) {
             mDataset = new XYMultipleSeriesDataset();
             mRenderer = new XYMultipleSeriesRenderer();
             this.mWifiScanList = wifiScanList;
             this.numberOfChannels = numberOfChannels;
 
-            mChartView =  ChartFactory.getLineChartView(getActivity(), mDataset, mRenderer);
+            mChartView = ChartFactory.getLineChartView(getActivity(), mDataset, mRenderer);
         }
 
-        public void init()
-        {
+        public void init() {
             mRenderer.setMarginsColor(Color.argb(0x00, 0xff, 0x00, 0x00)); // transparent margins
             mRenderer.setPanEnabled(false, false);
             mRenderer.setYAxisMax(-40);
@@ -426,45 +389,39 @@ public class ChannelInterference extends Fragment
             mRenderer.setFitLegend(true);
             mRenderer.setShowCustomTextGrid(true);
 
-            for (int i = -2; i < numberOfChannels + 2; i++)
-            {
-                if(i > 0 && i < numberOfChannels + 1)
+            for (int i = -2; i < numberOfChannels + 2; i++) {
+                if (i > 0 && i < numberOfChannels + 1)
                     mRenderer.addXTextLabel(i, String.valueOf(i));
                 else
                     mRenderer.addXTextLabel(i, "");
             }
         }
 
-        public void setValues( String currentSSID)
-        {
+        public void setValues(String currentSSID) {
             int index = 0;
 
-            for(int i = 0; i < mWifiScanList.size(); i++)
-            {
+            for (int i = 0; i < mWifiScanList.size(); i++) {
                 XYSeriesRenderer renderer = new XYSeriesRenderer();
                 renderer.setColor(getColorForConnection(mSsidColorMap, mWifiScanList.get(i).SSID));
                 renderer.setDisplayBoundingPoints(true);
 
-                if(mWifiScanList.get(i).SSID.equals(currentSSID))
-                {
+                if (mWifiScanList.get(i).SSID.equals(currentSSID)) {
                     renderer.setLineWidth(5);
                     renderer.setPointStyle(PointStyle.DIAMOND);
                     renderer.setDisplayChartValues(true);
                     renderer.setChartValuesTextSize(15);
                     renderer.setPointStrokeWidth(10);
-                }
-                else
-                {
+                } else {
                     renderer.setLineWidth(2);
                     renderer.setPointStyle(PointStyle.CIRCLE);
                     renderer.setPointStrokeWidth(3);
                 }
 
-                XYSeries series = new XYSeries(mWifiScanList.get(i).SSID );
+                XYSeries series = new XYSeries(mWifiScanList.get(i).SSID);
 
                 int channel = Utility.convertFrequencyToChannel(mWifiScanList.get(i).frequency);
 
-                if( channel  < sFirstChannel || channel > sLastChannel)
+                if (channel < sFirstChannel || channel > sLastChannel)
                     continue;
 
                 series.add(channel - 2, -100);
@@ -478,25 +435,21 @@ public class ChannelInterference extends Fragment
             }
         }
 
-        private int getColorForConnection(HashMap<String, Integer> hashMap, String ssid)
-        {
-            if (!hashMap.containsKey(ssid))
-            {
+        private int getColorForConnection(HashMap<String, Integer> hashMap, String ssid) {
+            if (!hashMap.containsKey(ssid)) {
                 hashMap.put(ssid, Utility.randColor());
             }
 
             return hashMap.get(ssid);
         }
 
-        public View getmChartView()
-        {
-            mChartView =  ChartFactory.getLineChartView(getActivity(), mDataset, mRenderer);
+        public View getmChartView() {
+            mChartView = ChartFactory.getLineChartView(getActivity(), mDataset, mRenderer);
             return mChartView;
         }
     }
 
-    private class ValuationChannelAdapter extends ArrayAdapter<String[]>
-    {
+    private class ValuationChannelAdapter extends ArrayAdapter<String[]> {
         final static short SIZE_TAB = 4;
         final static short CHANNEL_TAB = 0;
         final static short VALUATION_PERCENT_TAB = 1;
@@ -506,20 +459,17 @@ public class ChannelInterference extends Fragment
         private final Context context;
         private final List<String[]> values;
 
-        public ValuationChannelAdapter(Context context, List<String[]> objects)
-        {
+        public ValuationChannelAdapter(Context context, List<String[]> objects) {
             super(context, R.layout.channel_interference_listview, objects);
             this.context = context;
             this.values = objects;
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent)
-        {
+        public View getView(int position, View convertView, ViewGroup parent) {
             View view = null;
 
-            if(convertView == null)
-            {
+            if (convertView == null) {
                 LayoutInflater inflater = (LayoutInflater) context.
                         getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -533,10 +483,8 @@ public class ChannelInterference extends Fragment
             return view;
         }
 
-        private void setValuesToListView(int position, ViewHolder viewHolder)
-        {
-            for (int i = 0; i < this.values.size(); i++)
-            {
+        private void setValuesToListView(int position, ViewHolder viewHolder) {
+            for (int i = 0; i < this.values.size(); i++) {
                 String[] tab = getItem(position);
 
                 viewHolder.channelView.setText(String.format(
@@ -555,38 +503,33 @@ public class ChannelInterference extends Fragment
 
         }
 
-        public class ViewHolder
-        {
+        public class ViewHolder {
             public final TextView channelView;
             public final TextView valuationProgressBarView;
             public final TextView valuationView;
             public final TextView networksOnThisChannelView;
             public final ProgressBar progressBar;
 
-            public ViewHolder(View view)
-            {
+            public ViewHolder(View view) {
                 channelView = (TextView) view.findViewById(R.id.cia_channel_textview);
                 valuationProgressBarView = (TextView) view.findViewById(R.id.cia_valuation_progressbar_textView);
                 valuationView = (TextView) view.findViewById(R.id.cia_valuation_textview);
                 networksOnThisChannelView = (TextView) view.findViewById(R.id.cia_number_of_networks_textview);
 
-                progressBar =  (ProgressBar) view.findViewById(R.id.cia_valuation_progressbar);
+                progressBar = (ProgressBar) view.findViewById(R.id.cia_valuation_progressbar);
                 progressBar.setMax(100);
             }
         }
 
     }
 
-    private class WifiScanReceiver extends BroadcastReceiver
-    {
-        public void onReceive(Context c, Intent intent)
-        {
+    private class WifiScanReceiver extends BroadcastReceiver {
+        public void onReceive(Context c, Intent intent) {
             update();
         }
     }
 
-    public class ViewHolder
-    {
+    public class ViewHolder {
         public final TextView connectedView;
         public final TextView valuationProgressBarView;
         public final TextView channelView;
@@ -599,8 +542,7 @@ public class ChannelInterference extends Fragment
 
         public final LinearLayout mChartChannels;
 
-        public ViewHolder(View rootView)
-        {
+        public ViewHolder(View rootView) {
             mChartChannels = (LinearLayout) rootView.findViewById(R.id.ci_channel_chart);
 
             connectedView = (TextView) rootView.findViewById(R.id.ci_connected_textview);

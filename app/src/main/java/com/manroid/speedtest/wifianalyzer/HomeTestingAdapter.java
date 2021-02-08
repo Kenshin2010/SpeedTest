@@ -12,8 +12,7 @@ import com.manroid.speedtest.R;
 
 import java.util.List;
 
-public class HomeTestingAdapter extends ArrayAdapter<String[]>
-{
+public class HomeTestingAdapter extends ArrayAdapter<String[]> {
     final static short SIZE_TAB = 5;
     final static short ROOM_NAME_TAB = 0;
     final static short LINK_SPEED_TAB = 1;
@@ -24,20 +23,17 @@ public class HomeTestingAdapter extends ArrayAdapter<String[]>
     private final Context context;
     private final List<String[]> values;
 
-    public HomeTestingAdapter(Context context, List<String[]> objects)
-    {
+    public HomeTestingAdapter(Context context, List<String[]> objects) {
         super(context, R.layout.home_testing_listview, objects);
         this.context = context;
         this.values = objects;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent)
-    {
+    public View getView(int position, View convertView, ViewGroup parent) {
         View view = null;
 
-        if(convertView == null)
-        {
+        if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().
                     getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -51,10 +47,8 @@ public class HomeTestingAdapter extends ArrayAdapter<String[]>
         return view;
     }
 
-    private void setValuesToListView(int position, ViewHolder viewHolder)
-    {
-        for (int i = 0; i < this.values.size(); i++)
-        {
+    private void setValuesToListView(int position, ViewHolder viewHolder) {
+        for (int i = 0; i < this.values.size(); i++) {
             String[] tab = getItem(position);
 
             int qualityLast = Utility.convertRssiToQuality(Float.valueOf(tab[LAST_RSSI_TAB]).intValue());
@@ -81,8 +75,7 @@ public class HomeTestingAdapter extends ArrayAdapter<String[]>
 
     }
 
-    public static class ViewHolder
-    {
+    public static class ViewHolder {
         public final TextView roomNameView;
 
         public final ProgressBar progressBarSpeedLast;
@@ -95,8 +88,7 @@ public class HomeTestingAdapter extends ArrayAdapter<String[]>
         public final TextView progressBarSpeedNowView;
         public final TextView progressBarSpeedLastView;
 
-        public ViewHolder(View view)
-        {
+        public ViewHolder(View view) {
             roomNameView = (TextView) view.findViewById(R.id.room_name_textView);
 
             progressBarQualityNow = (ProgressBar) view.findViewById(R.id.ht_quality_progressbar_now);
