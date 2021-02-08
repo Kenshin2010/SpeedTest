@@ -5,14 +5,10 @@ import android.app.AppOpsManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.Settings;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -31,77 +27,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mHandler = new Handler();
     }
-
-    public void test(View view) {
-        startTestWifi();
-    }
-
-    private int mInterval = 5000;
-    private Handler mHandler;
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        stopTestWifi();
     }
 
-    Runnable mStatusChecker = new Runnable() {
-        @Override
-        public void run() {
-            try {
-                checkWifi();
-            } finally {
-                mHandler.postDelayed(mStatusChecker, mInterval);
-            }
-        }
-    };
-
-    private void startTestWifi() {
-        mStatusChecker.run();
-    }
-
-    private void stopTestWifi() {
-        mHandler.removeCallbacks(mStatusChecker);
-    }
-
-    private void checkWifi(){
-        WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        if(wifiManager.isWifiEnabled()) {
-            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-            if(wifiInfo != null) {
-                int level = wifiInfo.getRssi();
-                if (level <= 0 && level >= -50) {
-                    Toast.makeText(this, "Best signal: " + level , Toast.LENGTH_SHORT).show();
-                } else if (level < -50 && level >= -70) {
-                    Toast.makeText(this, "Good signal: " + level, Toast.LENGTH_SHORT).show();
-                } else if (level < -70 && level >= -80) {
-                    Toast.makeText(this, "Low signal: " + level, Toast.LENGTH_SHORT).show();
-                } else if (level < -80 && level >= -100) {
-                    Toast.makeText(this, "Very weak signa: " + level, Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(this, "No signal", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }else {
-            Toast.makeText(this, "No signal", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public void stopTest(View view) {
-        stopTestWifi();
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void checkDataUsed(View view) {
         if (!hasPermissionToReadNetworkHistory()) {
             return;
         }
-        if (!hasPermissionToReadPhoneStats()) {
-            requestPhoneStateStats();
-            return;
-        }
+//        if (!hasPermissionToReadPhoneStats()) {
+//            requestPhoneStateStats();
+//            return;
+//        }
         startActivity(new Intent(this, AppsUsedDataActivity.class));
 //        Intent intent = new Intent("android.settings.APPLICATION_DETAILS_SETTINGS");
 //        StringBuilder sb = new StringBuilder();
