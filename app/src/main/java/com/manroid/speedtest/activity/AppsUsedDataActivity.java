@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +26,11 @@ import com.manroid.speedtest.model.NetworkTrafficDate;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @SuppressLint("NewApi")
 public class AppsUsedDataActivity extends AppCompatActivity {
@@ -33,6 +39,7 @@ public class AppsUsedDataActivity extends AppCompatActivity {
     @BindView(R.id.tv_total_data) TextView tvTotalData;
     private DataUsedAdapter adapter;
     private NetworkTrafficDate trafficDate;
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,21 +83,60 @@ public class AppsUsedDataActivity extends AppCompatActivity {
     }
 
     private void selectMonthAppUsedData(){
-        trafficDate = new NetworkTrafficDate(this);
-        adapter.setData(trafficDate.getNetWorkByDay(NetworkTrafficDate.A_MONTH));
-        tvTotalData.setText(ValueFormatter.getFileSize(trafficDate.getTotalDataWeek()));
+        Toast.makeText(this, "Loading ....", Toast.LENGTH_SHORT).show();
+        Disposable disposable = Observable.fromCallable(() -> {
+            try {
+                return trafficDate = new NetworkTrafficDate(this);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe((result) -> {
+            if (result != null){
+                adapter.setData(trafficDate.getNetWorkByDay(NetworkTrafficDate.A_MONTH));
+                tvTotalData.setText(ValueFormatter.getFileSize(trafficDate.getTotalDataWeek()));
+                Toast.makeText(this, "Loaded", Toast.LENGTH_SHORT).show();
+            }
+        });
+        compositeDisposable.add(disposable);
     }
 
     private void selectWeekAppUsedData(){
-        trafficDate = new NetworkTrafficDate(this);
-        adapter.setData(trafficDate.getNetWorkByDay(NetworkTrafficDate.A_WEEK));
-        tvTotalData.setText(ValueFormatter.getFileSize(trafficDate.getTotalDataWeek()));
+        Toast.makeText(this, "Loading ....", Toast.LENGTH_SHORT).show();
+        Disposable disposable = Observable.fromCallable(() -> {
+            try {
+                return trafficDate = new NetworkTrafficDate(this);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe((result) -> {
+            if (result != null){
+                adapter.setData(trafficDate.getNetWorkByDay(NetworkTrafficDate.A_WEEK));
+                tvTotalData.setText(ValueFormatter.getFileSize(trafficDate.getTotalDataWeek()));
+                Toast.makeText(this, "Loaded", Toast.LENGTH_SHORT).show();
+            }
+        });
+        compositeDisposable.add(disposable);
     }
 
     private void selectTodayAppUsedData(){
-        trafficDate = new NetworkTrafficDate(this, DurationManager.getToday(), DurationManager.getCurrentTime(), 0);
-        adapter.setData(trafficDate.getNetWorkToDay());
-        tvTotalData.setText(ValueFormatter.getFileSize(trafficDate.getTotalTraffic()));
+        Toast.makeText(this, "Loading ....", Toast.LENGTH_SHORT).show();
+        Disposable disposable = Observable.fromCallable(() -> {
+            try {
+                return trafficDate = new NetworkTrafficDate(this, DurationManager.getToday(), DurationManager.getCurrentTime(), 0);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe((result) -> {
+            if (result != null){
+                adapter.setData(trafficDate.getNetWorkToDay());
+                tvTotalData.setText(ValueFormatter.getFileSize(trafficDate.getTotalTraffic()));
+                Toast.makeText(this, "Loaded", Toast.LENGTH_SHORT).show();
+            }
+        });
+        compositeDisposable.add(disposable);
     }
 
     @Override

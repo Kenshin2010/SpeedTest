@@ -12,6 +12,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.text.format.Formatter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import androidx.fragment.app.Fragment;
 
 import com.cardiomood.android.controls.gauge.SpeedometerGauge;
 import com.manroid.speedtest.R;
+import com.manroid.speedtest.receiver.WifiStateChangedReceiver;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
@@ -35,7 +37,8 @@ import org.achartengine.renderer.XYSeriesRenderer;
 import java.util.HashMap;
 import java.util.List;
 
-public class ConnectionInfoFragment extends Fragment {
+@SuppressLint("StringFormatMatches")
+public class ConnectionInfoFragment extends Fragment implements WifiStateChangedReceiver.WifiListener {
     @SuppressWarnings("unused")
     public static final String LOG_TAG = ConnectionInfoFragment.class.getSimpleName();
 
@@ -50,28 +53,25 @@ public class ConnectionInfoFragment extends Fragment {
     private long timeStart = 0;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.connection_info_tab, container, false);
-
-        viewHolder = new ViewHolder(rootView);
-
-        initSpeedometer();
-        update();
-
-        return rootView;
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         mWifiManager = (WifiManager) getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         mWifiReceiver = new WifiScanReceiver();
-
+        WifiStateChangedReceiver wifiStateChangedReceiver = new WifiStateChangedReceiver();
+        wifiStateChangedReceiver.setListener(this);
+        getActivity().registerReceiver(wifiStateChangedReceiver, new IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION));
         Utility.enableWifi(mWifiManager);
-
         mWifiManager.startScan();
-
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.connection_info_tab, container, false);
+        viewHolder = new ViewHolder(rootView);
+        initSpeedometer();
+        update(true);
+        return rootView;
     }
 
     @Override
@@ -95,8 +95,7 @@ public class ConnectionInfoFragment extends Fragment {
     }
 
     //update info bar, speedometer, connection info
-    @SuppressLint("StringFormatMatches") @SuppressWarnings("deprecation")
-    private void update() {
+    private void update(boolean isWifiAvailable) {
         WifiInfo wifiInfo = mWifiManager.getConnectionInfo();
 
         String ssid = wifiInfo.getSSID();
@@ -105,8 +104,9 @@ public class ConnectionInfoFragment extends Fragment {
         }
 
         double rssi = wifiInfo.getRssi();
+        Log.d("debug data wifi", "update: " + rssi);
 
-        if (rssi < -100)
+        if (rssi < -100 || !isWifiAvailable)
             rssi = -100;
 
         WifiChart wifiChart = new WifiChart();
@@ -119,15 +119,10 @@ public class ConnectionInfoFragment extends Fragment {
 
         viewHolder.mChartChannels.addView(wifiChart.getmChartView(), 0);
 
-        if (wifiInfo.getBSSID() == null)
+        if (wifiInfo.getBSSID() == null || !isWifiAvailable) {
+            setValueView(null, null, 0, null, rssi, false);
             return;
-
-        viewHolder.speedometer.setSpeed(rssi + 100, 1000, 0);
-        viewHolder.strengthBarView.setText(String.format(getResources().getString(R.string.cinf_strength_bar_view), wifiInfo.getRssi()));
-        viewHolder.strengthOnProgressBarView.setText(String.format(
-                getResources().getString(R.string.percent_textView), String.valueOf(Utility.convertRssiToQuality(wifiInfo.getRssi()))));
-        viewHolder.progressBar.setProgress(Utility.convertRssiToQuality(wifiInfo.getRssi()));
-        viewHolder.connectedView.setText(String.format(getString(R.string.connected_bar), wifiInfo.getSSID()));
+        }
 
         List<ScanResult> wifiScanList = mWifiManager.getScanResults();
 
@@ -146,22 +141,38 @@ public class ConnectionInfoFragment extends Fragment {
         }
 
         DhcpInfo dhcpInfo = mWifiManager.getDhcpInfo();
+        setValueView(wifiInfo, cap, freq, dhcpInfo, rssi, isWifiAvailable);
+    }
 
-        viewHolder.ssidView.setText(wifiInfo.getSSID());
-        viewHolder.bssidView.setText(wifiInfo.getBSSID());
-        viewHolder.macView.setText(wifiInfo.getMacAddress());
-        viewHolder.speedView.setText(String.format(getString(R.string.Mbps_textView), wifiInfo.getLinkSpeed()));
-        viewHolder.strengthbView.setText(String.format(getString(R.string.dBm_textView), wifiInfo.getRssi()));
-        viewHolder.encryptionView.setText(Utility.getEncryptionFromCapabilities(cap));
-        viewHolder.channelView.setText(String.valueOf(Utility.convertFrequencyToChannel(freq)));
-        viewHolder.frequecyView.setText(String.valueOf(freq));
-        viewHolder.ipView.setText(Formatter.formatIpAddress(wifiInfo.getIpAddress()));
-        viewHolder.netmaskView.setText(Formatter.formatIpAddress(dhcpInfo.netmask));
-        viewHolder.gatewayView.setText(Formatter.formatIpAddress(dhcpInfo.gateway));
-        viewHolder.dhcpView.setText(Formatter.formatIpAddress(dhcpInfo.serverAddress));
-        viewHolder.dns1View.setText(Formatter.formatIpAddress(dhcpInfo.dns1));
-        viewHolder.dns2View.setText(Formatter.formatIpAddress(dhcpInfo.dns2));
-        viewHolder.dhsp1View.setText(String.valueOf(dhcpInfo.leaseDuration));
+    private void setValueView(WifiInfo wifiInfo, String cap, int freq, DhcpInfo dhcpInfo, double rssi, boolean isWifiAvailable) {
+        viewHolder.strengthBarView.setText(isWifiAvailable
+                ? String.format(getResources().getString(R.string.cinf_strength_bar_view), wifiInfo.getRssi())
+                : getString(R.string.default_nn));
+        viewHolder.strengthOnProgressBarView.setText(isWifiAvailable
+                ? String.format(getResources().getString(R.string.percent_textView), String.valueOf(Utility.convertRssiToQuality(wifiInfo.getRssi())))
+                : getString(R.string.default_nn));
+        viewHolder.progressBar.setProgress(isWifiAvailable
+                ? Utility.convertRssiToQuality(wifiInfo.getRssi()) :
+                0);
+        viewHolder.connectedView.setText(isWifiAvailable
+                ? String.format(getString(R.string.connected_bar), wifiInfo.getSSID())
+                : getString(R.string.default_nn));
+        viewHolder.speedometer.setSpeed(isWifiAvailable ? rssi + 100 : 0, 1000, 0);
+        viewHolder.ssidView.setText(isWifiAvailable ? wifiInfo.getSSID() : getString(R.string.default_nn));
+        viewHolder.bssidView.setText(isWifiAvailable ? wifiInfo.getBSSID() : getString(R.string.default_nn));
+        viewHolder.macView.setText(isWifiAvailable ? wifiInfo.getMacAddress() : getString(R.string.default_nn));
+        viewHolder.speedView.setText(isWifiAvailable ? String.format(getString(R.string.Mbps_textView), wifiInfo.getLinkSpeed()) : getString(R.string.default_nn));
+        viewHolder.strengthbView.setText(isWifiAvailable ? String.format(getString(R.string.dBm_textView), wifiInfo.getRssi()) : getString(R.string.default_nn));
+        viewHolder.encryptionView.setText(isWifiAvailable ? Utility.getEncryptionFromCapabilities(cap) : getString(R.string.default_nn));
+        viewHolder.channelView.setText(isWifiAvailable ? String.valueOf(Utility.convertFrequencyToChannel(freq)) : getString(R.string.default_nn));
+        viewHolder.frequecyView.setText(isWifiAvailable ? String.valueOf(freq) : getString(R.string.default_nn));
+        viewHolder.ipView.setText(isWifiAvailable ? Formatter.formatIpAddress(wifiInfo.getIpAddress()) : getString(R.string.default_nn));
+        viewHolder.netmaskView.setText(isWifiAvailable ? Formatter.formatIpAddress(dhcpInfo.netmask) : getString(R.string.default_nn));
+        viewHolder.gatewayView.setText(isWifiAvailable ? Formatter.formatIpAddress(dhcpInfo.gateway) : getString(R.string.default_nn));
+        viewHolder.dhcpView.setText(isWifiAvailable ? Formatter.formatIpAddress(dhcpInfo.serverAddress) : getString(R.string.default_nn));
+        viewHolder.dns1View.setText(isWifiAvailable ? Formatter.formatIpAddress(dhcpInfo.dns1) : getString(R.string.default_nn));
+        viewHolder.dns2View.setText(isWifiAvailable ? Formatter.formatIpAddress(dhcpInfo.dns2) : getString(R.string.default_nn));
+        viewHolder.dhsp1View.setText(isWifiAvailable ? String.valueOf(dhcpInfo.leaseDuration) : getString(R.string.default_nn));
     }
 
     //init needle gauge
@@ -182,6 +193,12 @@ public class ConnectionInfoFragment extends Fragment {
         viewHolder.speedometer.addColoredRange(50, 100, Color.GREEN);
         viewHolder.speedometer.setLabelTextSize(15);
         viewHolder.speedometer.setSpeed(0);
+    }
+
+    @Override public void actionWifi(boolean isEnable) {
+        if (!isEnable) {
+            update(false);
+        }
     }
 
     private class WifiChart {
@@ -257,7 +274,7 @@ public class ConnectionInfoFragment extends Fragment {
 
     private class WifiScanReceiver extends BroadcastReceiver {
         public void onReceive(Context c, Intent intent) {
-            update();
+            update(true);
         }
     }
 

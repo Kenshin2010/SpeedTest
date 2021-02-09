@@ -13,9 +13,11 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.text.format.Formatter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,6 +27,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
 import com.manroid.speedtest.R;
 import com.manroid.speedtest.adapter.NetworkStatusAdapter;
 
@@ -32,6 +35,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static com.manroid.speedtest.adapter.NetworkStatusAdapter.BSSID_TAB;
+import static com.manroid.speedtest.adapter.NetworkStatusAdapter.CAPABILITIES_TAB;
+import static com.manroid.speedtest.adapter.NetworkStatusAdapter.FREQUENCY_TAB;
+import static com.manroid.speedtest.adapter.NetworkStatusAdapter.IS_CONNECTED;
+import static com.manroid.speedtest.adapter.NetworkStatusAdapter.LEVEL_TAB;
+import static com.manroid.speedtest.adapter.NetworkStatusAdapter.SSID_TAB;
 
 public class NetworkStatusFragment extends Fragment {
     @SuppressWarnings("unused")
@@ -50,6 +60,8 @@ public class NetworkStatusFragment extends Fragment {
     private TextView connectedInfoView;
     private TextView ipView;
     private TextView speedView;
+    private ImageView refreshRateButton;
+    private ImageView refreshButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,6 +85,10 @@ public class NetworkStatusFragment extends Fragment {
         connectedInfoView = view.findViewById(R.id.ns_connected_textview);
         ipView = view.findViewById(R.id.ns_ip_textView);
         speedView = view.findViewById(R.id.ns_speed_textView);
+        refreshRateButton = view.findViewById(R.id.scanning_time_button);
+        refreshButton = view.findViewById(R.id.refresh_button);
+        refreshButton.setOnClickListener(v -> updateView());
+        refreshRateButton.setOnClickListener(v -> createRefreshIntervalDialog());
     }
 
     private void initView() {
@@ -83,6 +99,12 @@ public class NetworkStatusFragment extends Fragment {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvNetworkStatus.getContext(),
                 linearLayoutManager.getOrientation());
         rvNetworkStatus.addItemDecoration(dividerItemDecoration);
+        refreshRateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createRefreshIntervalDialog();
+            }
+        });
     }
 
     @Override
@@ -143,7 +165,7 @@ public class NetworkStatusFragment extends Fragment {
         mWifiManager.startScan();
 
         List<ScanResult> wifiScanList = mWifiManager.getScanResults();
-
+        Log.d("debug data wifi", "update: " + new Gson().toJson(wifiScanList));
         if (wifiScanList == null) {
             return;
         }
@@ -164,18 +186,18 @@ public class NetworkStatusFragment extends Fragment {
             bssid = "";
 
         for (int i = 0; i < wifiScanList.size(); i++) {
-            String[] wifiDetails = new String[com.manroid.speedtest.wifianalyzer.NetworkStatusAdapter.SIZE_TAB];
+            String[] wifiDetails = new String[NetworkStatusAdapter.SIZE_TAB];
 
-            wifiDetails[com.manroid.speedtest.wifianalyzer.NetworkStatusAdapter.BSSID_TAB] = wifiScanList.get(i).BSSID;
-            wifiDetails[com.manroid.speedtest.wifianalyzer.NetworkStatusAdapter.SSID_TAB] = wifiScanList.get(i).SSID;
-            wifiDetails[com.manroid.speedtest.wifianalyzer.NetworkStatusAdapter.CAPABILITIES_TAB] = wifiScanList.get(i).capabilities;
-            wifiDetails[com.manroid.speedtest.wifianalyzer.NetworkStatusAdapter.FREQUENCY_TAB] = String.valueOf(wifiScanList.get(i).frequency);
-            wifiDetails[com.manroid.speedtest.wifianalyzer.NetworkStatusAdapter.LEVEL_TAB] = String.valueOf(wifiScanList.get(i).level);
+            wifiDetails[BSSID_TAB] = wifiScanList.get(i).BSSID;
+            wifiDetails[SSID_TAB] = wifiScanList.get(i).SSID;
+            wifiDetails[CAPABILITIES_TAB] = wifiScanList.get(i).capabilities;
+            wifiDetails[FREQUENCY_TAB] = String.valueOf(wifiScanList.get(i).frequency);
+            wifiDetails[LEVEL_TAB] = String.valueOf(wifiScanList.get(i).level);
 
             if (bssid.equals(wifiScanList.get(i).BSSID)) {
-                wifiDetails[com.manroid.speedtest.wifianalyzer.NetworkStatusAdapter.IS_CONNECTED] = "1";
+                wifiDetails[IS_CONNECTED] = "1";
             } else {
-                wifiDetails[com.manroid.speedtest.wifianalyzer.NetworkStatusAdapter.IS_CONNECTED] = "0";
+                wifiDetails[IS_CONNECTED] = "0";
             }
 
             list.add(wifiDetails);
